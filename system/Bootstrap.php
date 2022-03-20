@@ -55,12 +55,13 @@ class App
             ]);
             $data['response_time'] = $this->db->now();
             header('HTTP/1.1 401 Unauthorized');
-            echo json_encode($response);
-            exit();
         }
         $id = $this->db->insert('requests', $data);
         if ($id)
             $this->request_id = $id;
+        $response['request-id'] = $id;
+        echo json_encode($response);
+        exit();
     }
 
     protected function verify_credentials()
