@@ -15,7 +15,7 @@ class App
     {
         $this->db = new MysqliDb(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
-        if (explode('/', $_GET['route'])[0] == 'api')
+        if (isset($_GET['route']) && explode('/', $_GET['route'])[0] == 'api')
             $this->auth();
 
         $this->routes = new Routes();

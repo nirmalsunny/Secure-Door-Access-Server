@@ -17,4 +17,8 @@ class Controller
             echo $content;
         }
     }
+
+    public function output($template, $data = null) {
+        new View($template, $data);
+    }
 }

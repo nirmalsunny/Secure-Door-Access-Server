@@ -5,13 +5,13 @@ class Home extends Controller
 
     public function index()
     {
-        echo 'Welcome';
+        $this->output('home');
     }
 
 
     public function error()
     {
-        echo 'error';
+        $this->response(['success' => 'false'], 'json');
     }
 
     public function dashboard()
