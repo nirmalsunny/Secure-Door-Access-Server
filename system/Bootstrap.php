@@ -63,11 +63,13 @@ class App
             $this->request_id = $id;
     }
 
-    protected function verify_credentials() {
+    protected function verify_credentials()
+    {
         if (isset(getallheaders()['x-authorization-token'])) {
-            $this->db->where("api_key", getallheaders()['x-authorization-token']);
-            $this->db->where("expires_at > NOW()");
-            $user_id = $this->db->get('api_keys');
+            $this->db->where("api_key", getallheaders()['x-authorization-token'])
+                ->where("expires_at > NOW()")
+                ->where("is_active", 1);
+            $user_id = $this->db->get('api_keys', 1);
             if ($user_id) {
                 $this->user_id = $user_id;
                 return true;

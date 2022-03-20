@@ -11,7 +11,13 @@ class Home extends Controller
 
     public function error()
     {
-        $this->response(['success' => 'false'], 'json');
+        if ($this->is_api())
+            $this->response([
+                'success' => 'false',
+                "error" => "unknown"
+            ], 'json');
+        else
+            $this->output('error');
     }
 
     public function dashboard()
@@ -30,10 +36,12 @@ class Home extends Controller
                     //change binary to hexadecimal
                     $token = bin2hex($rand_token);
                     //token generated
-                    $this->db->where("user_id", $results[0]['user_id'])->delete("api_keys"); //only one session at a time
+                    $this->db->where("user_id", $results[0]['user_id'])
+                        ->update("api_keys", ["is_active" => 0]); //only one session at a time
                     $this->db->insert("api_keys", [
                         "api_key" => $token,
                         "user_id" => $results[0]['user_id'],
+                        "is_active" => 1,
                         "expires_at" => $this->db->now('+1d')
                     ]);
                     $this->response([

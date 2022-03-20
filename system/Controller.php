@@ -21,4 +21,10 @@ class Controller
     public function output($template, $data = null) {
         new View($template, $data);
     }
+
+    public function is_api() {
+        if (isset($_GET['route']) && explode('/', $_GET['route'])[0] == 'api')
+            return true;
+        return false;
+    }
 }
