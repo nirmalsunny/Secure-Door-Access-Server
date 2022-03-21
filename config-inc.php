@@ -5,6 +5,7 @@ define('SYSTEM', __DIR__ . '/system');
 define('CONTROLLERS_FOLDER', ROOT . '/controllers');
 define('VIEWS_FOLDER', ROOT . '/views');
 
+
 define('ROOT_URL', 'http://localhost/door_access/public');
 
 define('DB_HOST', 'localhost');
