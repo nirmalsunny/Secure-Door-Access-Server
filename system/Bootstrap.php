@@ -26,6 +26,7 @@ class App
         } else {
             $this->controller = "Home";
             $this->method = "error";
+            echo "controller or method not found";
         }
     }
 
@@ -47,6 +48,7 @@ class App
             "request_time" => $this->db->now()
         );
 
+        (new DumpHTTPRequestToFile)->execute('./dumprequest.txt');
         if (!$this->verify_credentials()) {
             $response = ['error' => 'unauthorized'];
             $data['response'] = json_encode([
@@ -55,7 +57,7 @@ class App
             ]);
             $data['response_time'] = $this->db->now();
             header('HTTP/1.1 401 Unauthorized');
-        }
+        
         $id = $this->db->insert('requests', $data);
         if ($id)
             $this->request_id = $id;
@@ -63,22 +65,70 @@ class App
         echo json_encode($response);
         exit();
     }
+    }
 
     protected function verify_credentials()
     {
         if (isset(getallheaders()['x-authorization-token'])) {
-            $this->db->where("api_key", getallheaders()['x-authorization-token'])
-                ->where("expires_at > NOW()")
-                ->where("is_active", 1);
-            $user_id = $this->db->get('api_keys', 1);
-            if ($user_id) {
-                $this->user_id = $user_id;
-                return true;
-            } else {
-                return false;
-            }
+            //print_r(getallheaders());
+            if (getallheaders()['x-authorization-token'] == "abcd")
+            return true;
+            else
+            return false;
+            // $this->db->where("api_key", getallheaders()['x-authorization-token'])
+            //     ->where("expires_at > NOW()")
+            //     ->where("is_active", 1);
+            // $user_id = $this->db->get('api_keys', 1);
+            // if ($user_id) {
+            //     $this->user_id = $user_id;
+            //     return true;
+            // } else {
+            //     return false;
+            // }
         } else {
             return false;
         }
     }
 }
+
+class DumpHTTPRequestToFile {
+	public function execute($targetFile) {
+		$data = sprintf(
+			"%s %s %s\n\nHTTP headers:\n",
+			$_SERVER['REQUEST_METHOD'],
+			$_SERVER['REQUEST_URI'],
+			$_SERVER['SERVER_PROTOCOL']
+		);
+
+		foreach ($this->getHeaderList() as $name => $value) {
+			$data .= $name . ': ' . $value . "\n";
+		}
+
+		$data .= "\nRequest body:\n";
+
+		file_put_contents(
+			$targetFile,
+			$data . file_get_contents('php://input') . "\n"
+		);
+
+		//echo("Done!\n\n");
+	}
+
+	private function getHeaderList() {
+		$headerList = [];
+		foreach ($_SERVER as $name => $value) {
+			if (preg_match('/^HTTP_/',$name)) {
+				// convert HTTP_HEADER_NAME to Header-Name
+				$name = strtr(substr($name,5),'_',' ');
+				$name = ucwords(strtolower($name));
+				$name = strtr($name,' ','-');
+
+				// add to list
+				$headerList[$name] = $value;
+			}
+		}
+
+		return $headerList;
+	}
+}
+

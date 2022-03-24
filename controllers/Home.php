@@ -8,6 +8,10 @@ class Home extends Controller
         $this->output('home');
     }
 
+    public function test_me()
+    {
+        var_dump($_REQUEST);
+    }
 
     public function error()
     {

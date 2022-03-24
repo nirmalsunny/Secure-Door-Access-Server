@@ -4,12 +4,10 @@ class Door extends Controller
 {
     public function add()
     {
-        if (isset($_GET['door_id']) && !empty($_GET['door_id']) && is_numeric($_GET['door_id'])) {
             if (
                 isset($_GET['door_identifier']) && !empty($_GET['door_identifier'])
                 && isset($_GET['door_access_level_id']) && !empty($_GET['door_access_level_id']) && is_numeric($_GET['door_access_level_id'])
                 && isset($_GET['is_active']) && !empty($_GET['is_active']) && is_numeric($_GET['is_active'])
-                && isset($_GET['modified_at']) && !empty($_GET['modified_at'])
             ) {
                 $data = array(
                     "door_identifier" => $_GET['door_identifier'],
@@ -23,7 +21,7 @@ class Door extends Controller
                 else
                     $this->response(['success' => 'false'], 'json');
             }
-        } else {
+         else {
             $this->response([
                 'success' => 'false',
                 'error' => 'Incorrect parameters'

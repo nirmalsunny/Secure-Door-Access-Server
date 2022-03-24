@@ -3,6 +3,7 @@
 return [
     "home" => "index@Home",
     "error" => "error@Home",
+    "test" => "test_me@Home",
     "login" => "login@Home",
     "register" => "register@Home",
 
