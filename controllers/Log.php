@@ -27,10 +27,10 @@ class Log extends Controller
     {
         if (
             isset($_GET['log_id']) && !empty($_GET['log_id']) && is_numeric($_GET['log_id']) &&
-            isset($_GET['investigated_by']) && !empty($_GET['investigated_by']) && is_numeric($_GET['investigated_by'])
+            isset($_GET['has_investigated']) && !empty($_GET['has_investigated']) && is_numeric($_GET['has_investigated'])
         ) {
             $data = array(
-                'has_investigated' => $_GET['investigated_by'],
+                'has_investigated' => $_GET['has_investigated'],
                 'investigated_at' => $this->db->now()
             );
             $this->db->where('log_id', $_GET['log_id']);

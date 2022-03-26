@@ -11,9 +11,9 @@ class Access extends Controller
             } else {
                 $this->db->pageLimit = 15;
             }
-            $page = (int) $_GET['page'];
+            $page = (int) $this->db->escape($_GET['page']);
             $access_list = $this->db->arraybuilder()->paginate("access_list", $page);
-            $response['page'] = $_GET['page'];
+            $response['page'] = $this->db->escape($_GET['page']);
             $response['page_limit'] = $this->db->pageLimit;
             $response['total_pages'] = $this->db->totalPages;
             $response['payload'] = $access_list;

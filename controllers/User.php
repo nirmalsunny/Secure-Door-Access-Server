@@ -6,6 +6,8 @@ class User extends Controller
     public function add()
     {
         echo 'welcome';
+
+    
     }
 
     public function edit()

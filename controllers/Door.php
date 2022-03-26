@@ -38,8 +38,6 @@ class Door extends Controller
                 $data["door_access_level_id"] = (int) $_GET['door_access_level_id'];
             if (isset($_GET['is_active']) && !empty($_GET['is_active']) && is_numeric($_GET['is_active']))
                 $data["is_active"] = (int) $_GET['is_active'];
-            if (isset($_GET['modified_at']) && !empty($_GET['modified_at']))
-                $data["modified_at"] = $_GET['modified_at'];
             $this->db->where('door_id', $_GET['door_id']);
             if ($this->db->update('cards', $data))
                 $this->response(['success' => 'true'], 'json');
