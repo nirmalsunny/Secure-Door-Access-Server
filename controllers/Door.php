@@ -4,24 +4,23 @@ class Door extends Controller
 {
     public function add()
     {
-            if (
-                isset($_GET['door_identifier']) && !empty($_GET['door_identifier'])
-                && isset($_GET['door_access_level_id']) && !empty($_GET['door_access_level_id']) && is_numeric($_GET['door_access_level_id'])
-                && isset($_GET['is_active']) && !empty($_GET['is_active']) && is_numeric($_GET['is_active'])
-            ) {
-                $data = array(
-                    "door_identifier" => $_GET['door_identifier'],
-                    "door_access_level_id" => (int) $_GET['door_access_level_id'],
-                    "is_active" => (int) $_GET['is_active'],
-                    "modified_at" => $this->db->now()
-                );
-                $id = $this->db->insert('doors', $data);
-                if ($id)
-                    $this->response(['success' => 'true'], 'json');
-                else
-                    $this->response(['success' => 'false'], 'json');
-            }
-         else {
+        if (
+            isset($_GET['door_identifier']) && !empty($_GET['door_identifier'])
+            && isset($_GET['door_access_level_id']) && !empty($_GET['door_access_level_id']) && is_numeric($_GET['door_access_level_id'])
+            && isset($_GET['is_active']) && !empty($_GET['is_active']) && is_numeric($_GET['is_active'])
+        ) {
+            $data = array(
+                "door_identifier" => $_GET['door_identifier'],
+                "door_access_level_id" => (int) $_GET['door_access_level_id'],
+                "is_active" => (int) $_GET['is_active'],
+                "modified_at" => $this->db->now()
+            );
+            $id = $this->db->insert('doors', $data);
+            if ($id)
+                $this->response(['success' => 'true'], 'json');
+            else
+                $this->response(['success' => 'false'], 'json');
+        } else {
             $this->response([
                 'success' => 'false',
                 'error' => 'Incorrect parameters'

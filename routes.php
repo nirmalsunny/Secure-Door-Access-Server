@@ -4,6 +4,7 @@ return [
     "home" => "index@Home",
     "error" => "error@Home",
     "test" => "test_me@Home",
+    "hardware" => "hardware@Home",
     
     "login" => "login@Home",
     "register" => "register@Home",

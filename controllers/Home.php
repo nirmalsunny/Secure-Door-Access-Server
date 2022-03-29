@@ -8,9 +8,25 @@ class Home extends Controller
         $this->output('home');
     }
 
+    public function hardware()
+    {
+       // echo json_encode($_REQUEST);
+        print_r($_SERVER);
+       print_r($_POST);
+       print_r($_GET);
+       print_r($_FILES);
+        
+        (new DumpHTTPRequestToFile)->execute('./hardware.txt');
+    }
+
     public function test_me()
     {
-        var_dump($_REQUEST);
+        //echo json_encode(['open_door' => true]);
+       // print_r(json_decode('{"firstName":"John","lastName":"Doe","emai":"john.doe@gmail.com","card":"123456789","doors":[1,2,4],"levels":[3],"expDate":"2020-01-01"}', true));
+    //    print_r($_SERVER);
+    //    print_r($_POST);
+    //    print_r($_GET);
+    //    print_r($_FILES);
     }
 
     public function error()
