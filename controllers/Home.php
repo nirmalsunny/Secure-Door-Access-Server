@@ -8,25 +8,14 @@ class Home extends Controller
         $this->output('home');
     }
 
-    public function hardware()
-    {
-       // echo json_encode($_REQUEST);
-        print_r($_SERVER);
-       print_r($_POST);
-       print_r($_GET);
-       print_r($_FILES);
-        
-        (new DumpHTTPRequestToFile)->execute('./hardware.txt');
-    }
-
     public function test_me()
     {
         //echo json_encode(['open_door' => true]);
-       // print_r(json_decode('{"firstName":"John","lastName":"Doe","emai":"john.doe@gmail.com","card":"123456789","doors":[1,2,4],"levels":[3],"expDate":"2020-01-01"}', true));
-    //    print_r($_SERVER);
-    //    print_r($_POST);
-    //    print_r($_GET);
-    //    print_r($_FILES);
+        // print_r(json_decode('{"firstName":"John","lastName":"Doe","emai":"john.doe@gmail.com","card":"123456789","doors":[1,2,4],"levels":[3],"expDate":"2020-01-01"}', true));
+        //    print_r($_SERVER);
+        //    print_r($_POST);
+        //    print_r($_GET);
+        //    print_r($_FILES);
     }
 
     public function error()
@@ -42,7 +31,7 @@ class Home extends Controller
 
     public function dashboard()
     {
-        echo 'pp';
+        //
     }
 
     public function login()
@@ -52,9 +41,7 @@ class Home extends Controller
             $results = $this->db->get('users');
             if ($results) {
                 if (password_verify($_GET['password'], $results[0]['password'])) {
-                    $rand_token = openssl_random_pseudo_bytes(64);
-                    //change binary to hexadecimal
-                    $token = bin2hex($rand_token);
+                    $token = Helpers::token();
                     //token generated
                     $this->db->where("user_id", $results[0]['user_id'])
                         ->update("api_keys", ["is_active" => 0]); //only one session at a time
@@ -90,14 +77,6 @@ class Home extends Controller
 
     public function register()
     {
-        $timeTarget = 0.05; // 50 milliseconds
-        $cost = 8;
-        do {
-            $cost++;
-            $start = microtime(true);
-            password_hash("test", PASSWORD_BCRYPT, ["cost" => $cost]);
-            $end = microtime(true);
-        } while (($end - $start) < $timeTarget);
-        echo password_hash("test", PASSWORD_BCRYPT, ["cost" => $cost]);
+        //
     }
 }

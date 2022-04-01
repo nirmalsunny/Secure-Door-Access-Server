@@ -4,7 +4,7 @@
     </head>
     <body>
         <h1>Login to manage the cards and access</h1>
-        <form action="http://51.142.83.212/test" method ="post">
+        <form action="" method ="post">
             Username: <input name ="username" type="text">
             Password: <input name ="password"  type="password">
             <input type="submit" value="Login">

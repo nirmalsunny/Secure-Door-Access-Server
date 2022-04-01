@@ -4,10 +4,12 @@ return [
     "home" => "index@Home",
     "error" => "error@Home",
     "test" => "test_me@Home",
-    "hardware" => "hardware@Home",
-    
+
     "login" => "login@Home",
     "register" => "register@Home",
+
+    "asset/init" => "init@Asset",
+    "asset/access" => "access@Asset",
 
     "api/doors/all" => "all@Door",
     "api/doors/add" => "add@Door",
@@ -18,6 +20,9 @@ return [
     "api/users/edit" => "edit@User",
     "api/users/activate" => "activate@User",
     "api/users/delete" => "delete@User",
+    "api/users/all" => "all@User",
+    "api/users/get" => "get@User",
+    "api/users/email" => "checkEmail@User",
 
     "api/cards/all" => "all@Card",
     "api/cards/add" => "add@Card",
@@ -34,5 +39,4 @@ return [
     "api/logs/investigate" => "investigate@Log",
 
     "api/access/all" => "all@Access"
-
 ];
