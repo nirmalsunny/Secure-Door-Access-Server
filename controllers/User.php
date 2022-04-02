@@ -238,6 +238,7 @@ class User extends Controller
         if (isset($_GET['user_id']) && !empty($_GET['user_id']) && is_numeric($_GET['user_id'])) {
             $this->db->where('user_id', $this->db->escape($_GET['user_id']));
             if ($this->db->delete('users'))
+            
                 $this->response(['success' => 'true'], 'json');
             else
                 $this->response(['success' => 'false'], 'json');
