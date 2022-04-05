@@ -57,6 +57,7 @@ class Asset extends Controller
 
         $this->db->join("cards c", "u.user_id=c.assigned_to", "INNER");
         $this->db->where("c.uid", $this->db->escape($response['uid']));
+        $this->db->where("expires_at", "now()", ">");
         $card = $this->db->getOne("users u", "*, u.is_active AS is_user_active");
 
         if (!$card)
