@@ -45,37 +45,47 @@ class User extends Controller
 
             $id = $this->db->insert('users', $data);
             if ($id) {
-                //one card per user for now
-                $this->db->where('card_id', (int) $_GET['cards']);
-                if (!$this->db->update('cards', ['assigned_to' => $id]))
-                    $this->error[] = 'The card was not assigned to the user';
+                if (isset($_GET['cards']) && !empty($_GET['cards'])) {
+                    if (isset($_GET['expires_at']) && !empty($_GET['expires_at']))
+                        $card_data = ['assigned_to' => $id, 'is_active' => 1, 'expires_at' => $_GET['expires_at']];
+                    else
+                        $card_data = ['assigned_to' => $id, 'is_active' => 1];
+                    //one card per user for now
+                    $this->db->where('card_id', (int) $_GET['cards']);
+                    if (!$this->db->update('cards', $card_data))
+                        $this->error[] = 'The card was not assigned to the user';
+                }
+                if (isset($_GET['levels']) && !empty($_GET['levels'])) {
+                    //if (str_contains($_GET['levels'], ','))
+                    if (false !== strpos($_GET['levels'], ','))
+                        $levels = explode(',', $_GET['levels']);
+                    else
+                        $levels = [$_GET['levels']];
 
-                if (str_contains($_GET['levels'], ','))
-                    $levels = explode(',', $_GET['levels']);
-                else
-                    $levels = [$_GET['levels']];
-
-                foreach ($levels as $level) {
-                    if (!$this->db->insert('levels', [
-                        'card_id' => (int) $_GET['cards'],
-                        'level_id' => $level, 'is_allowed' => 1
-                    ]))
-                        $this->error[] = 'The level id ' . $level . ' was not assigned to card id ' . (int) $_GET['cards'];
+                    foreach ($levels as $level) {
+                        if (!$this->db->insert('card_to_level', [
+                            'card_id' => (int) $_GET['cards'],
+                            'level_id' => $level, 'is_allowed' => 1
+                        ]))
+                            $this->error[] = 'The level id ' . $level . ' was not assigned to card id ' . (int) $_GET['cards'];
+                    }
                 }
 
-                if (str_contains($_GET['doors'], ','))
-                    $doors = explode(',', $_GET['doors']);
-                else
-                    $doors = [$_GET['doors']];
+                if (isset($_GET['doors']) && !empty($_GET['doors'])) {
+                    // if (str_contains($_GET['doors'], ',')) //introduced in php 8
+                    if (false !== strpos($_GET['doors'], ','))
+                        $doors = explode(',', $_GET['doors']);
+                    else
+                        $doors = [$_GET['doors']];
 
-                foreach ($doors as $door) {
-                    if (!$this->db->insert('doors', [
-                        'card_id' => (int) $_GET['cards'],
-                        'door_id' => $door, 'is_allowed' => 1
-                    ]))
-                        $this->error[] = 'The door id ' . $door . ' was not assigned to card id ' . (int) $_GET['cards'];
+                    foreach ($doors as $door) {
+                        if (!$this->db->insert('card_to_door', [
+                            'card_id' => (int) $_GET['cards'],
+                            'door_id' => $door, 'is_allowed' => 1
+                        ]))
+                            $this->error[] = 'The door id ' . $door . ' was not assigned to card id ' . (int) $_GET['cards'];
+                    }
                 }
-
                 $this->response([
                     'success' => 'true',
                     "user_id" => $id
@@ -95,9 +105,9 @@ class User extends Controller
             !isset($_GET['first_name']) || empty($_GET['first_name'])
             || !isset($_GET['last_name']) || empty($_GET['last_name'])
             || !isset($_GET['email']) || empty($_GET['email'])
-            || !isset($_GET['cards']) || empty($_GET['cards'])
-            || !isset($_GET['doors']) || empty($_GET['doors'])
-            || !isset($_GET['levels']) || empty($_GET['levels'])
+            // || !isset($_GET['cards']) || empty($_GET['cards'])
+            // || !isset($_GET['doors']) || empty($_GET['doors'])
+            // || !isset($_GET['levels']) || empty($_GET['levels'])
             || !isset($_GET['type_of_access']) || empty($_GET['type_of_access'])
         ) {
             return 'Invalid Parameters';
@@ -126,25 +136,25 @@ class User extends Controller
             "modified_at" => $this->db->now()
         );
 
-        isset($_GET['first_name']) && !empty($_GET['first_name']) ??
+        if (isset($_GET['first_name']) && !empty($_GET['first_name']))
             $data['first_name'] = $_GET['first_name'];
 
-        isset($_GET['last_name']) && !empty($_GET['last_name']) ??
+        if (isset($_GET['last_name']) && !empty($_GET['last_name']))
             $data['last_name'] = $_GET['last_name'];
 
-        isset($_GET['email']) && !empty($_GET['email']) ??
+        if (isset($_GET['email']) && !empty($_GET['email']))
             $data['email'] = $_GET['email'];
 
-        isset($_GET['username']) && !empty($_GET['username']) ??
+        if (isset($_GET['username']) && !empty($_GET['username']))
             $data['username'] = $_GET['username'];
 
-        isset($_GET['password']) && !empty($_GET['password']) ??
+        if (isset($_GET['password']) && !empty($_GET['password']))
             $data['password'] = $_GET['password'];
 
-        isset($_GET['user_access_level_id']) && !empty($_GET['user_access_level_id']) ??
+        if (isset($_GET['user_access_level_id']) && !empty($_GET['user_access_level_id']))
             $data['user_access_level_id'] = $_GET['user_access_level_id'];
 
-        isset($_GET['type_of_access']) && !empty($_GET['type_of_access']) ??
+        if (isset($_GET['type_of_access']) && !empty($_GET['type_of_access']))
             $data['allow_global_level_access'] = ($_GET['type_of_access'] == 'Administrator' ? 1 : 0);
 
         if (isset($_GET['role']) && !empty($_GET['role']) && is_numeric($_GET['role']))
@@ -154,13 +164,13 @@ class User extends Controller
         else
             $data['role'] = 2;
 
-        isset($_GET['is_active']) && !empty($_GET['is_active']) && is_numeric($_GET['role']) ??
+        if (isset($_GET['is_active']) && !empty($_GET['is_active']) && is_numeric($_GET['is_active']))
             $data['is_active'] = $_GET['is_active'];
 
-        isset($_GET['employee_id']) && !empty($_GET['employee_id']) ??
+        if (isset($_GET['employee_id']) && !empty($_GET['employee_id']))
             $data['employee_id'] = $_GET['employee_id'];
 
-        isset($_GET['comments']) && !empty($_GET['comments']) ??
+        if (isset($_GET['comments']) && !empty($_GET['comments']))
             $data['comments'] = $_GET['comments'];
 
         $this->db->where('user_id', $_GET['user_id']);
@@ -171,11 +181,16 @@ class User extends Controller
                 "error" => 'Could not update the user'
             ], 'json');
 
-        if (isset($_GET['card_id']) && !empty($_GET['card_id'])) {
-            $card_id = $_GET['card_id'];
-            $this->db->where('card_id', (int) $_GET['cards']);
-            if (!$this->db->update('cards', ['assigned_to' => $_GET['user_id']]))
+        if (isset($_GET['cards']) && !empty($_GET['cards'])) {
+            $card_id = $_GET['cards'];
+            if (!$this->db->where('assigned_to', $_GET['user_id'])->update('cards', ['assigned_to' => NULL]))
                 $this->error[] = 'The card was not assigned to the user';
+            $cards_data = [];
+            $cards_data['assigned_to'] = $_GET['user_id'];
+            if (isset($_GET['expires_at']) && !empty($_GET['expires_at']))
+                $cards_data['expires_at'] = $_GET['expires_at'];
+            $this->db->where('card_id', (int) $_GET['cards']);
+            $this->db->update('cards', $cards_data);
         } else {
             $card_id = $this->db->where('assigned_to', $_GET['user_id'])
                 ->getOne('cards', 'card_id')['card_id'];
@@ -183,15 +198,15 @@ class User extends Controller
 
 
         if (isset($_GET['levels']) && !empty($_GET['levels'])) {
-            if (str_contains($_GET['levels'], ','))
+            if (false != strpos($_GET['levels'], ','))
                 $levels = explode(',', $_GET['levels']);
             else
                 $levels = [$_GET['levels']];
 
-            $this->db->where('card_id', $card_id)->delete('levels');
+            $this->db->where('card_id', $card_id)->delete('card_to_level');
 
             foreach ($levels as $level) {
-                if (!$this->db->insert('levels', [
+                if (!$this->db->insert('card_to_level', [
                     'card_id' => (int) $_GET['cards'],
                     'level_id' => $level, 'is_allowed' => 1
                 ]))
@@ -200,28 +215,31 @@ class User extends Controller
         }
 
         if (isset($_GET['doors']) && !empty($_GET['doors'])) {
-            if (str_contains($_GET['doors'], ','))
+            if (false != strpos($_GET['doors'], ','))
                 $doors = explode(',', $_GET['doors']);
             else
                 $doors = [$_GET['doors']];
 
-            $this->db->where('card_id', $card_id)->delete('doors');
+            $this->db->where('card_id', $card_id)->delete('card_to_door');
 
             foreach ($doors as $door) {
-                if (!$this->db->insert('doors', [
+                if (!$this->db->insert('card_to_door', [
                     'card_id' => (int) $_GET['cards'],
                     'door_id' => $door, 'is_allowed' => 1
                 ]))
                     $this->error[] = 'The door id ' . $door . ' was not assigned to card id ' . (int) $_GET['cards'];
             }
         }
+        return $this->response([
+            'success' => 'true'
+        ], 'json');
     }
 
     public function activate()
     {
         if (
             isset($_GET['user_id']) && !empty($_GET['user_id']) && is_numeric($_GET['user_id'])
-            && isset($_GET['is_active']) && !empty($_GET['is_active']) && is_numeric($_GET['is_active'])
+            /* && isset($_GET['is_active']) && !empty($_GET['is_active'] )*/
         ) {
             $activate = $this->db->where("user_id", $_GET['user_id'])
                 ->update("users", ["is_active" => $_GET['is_active']]);
@@ -230,6 +248,8 @@ class User extends Controller
             } else {
                 $this->response(['success' => 'false'], 'json');
             }
+        } else {
+            $this->response(['success' => 'false'], 'json');
         }
     }
 
@@ -238,7 +258,7 @@ class User extends Controller
         if (isset($_GET['user_id']) && !empty($_GET['user_id']) && is_numeric($_GET['user_id'])) {
             $this->db->where('user_id', $this->db->escape($_GET['user_id']));
             if ($this->db->delete('users'))
-            
+
                 $this->response(['success' => 'true'], 'json');
             else
                 $this->response(['success' => 'false'], 'json');
@@ -315,10 +335,12 @@ class User extends Controller
         $this->response($response, 'json');
     }
 
-    public function checkEmail() {
+    public function checkEmail()
+    {
         $this->db->where('email', $_GET['email']);
-        if ($this->db->getOne('users')) {
-            return $this->response(['user_id' => $this->db->getOne('users')['user_id']], 'json');
+        $user = $this->db->getOne('users');
+        if ($user) {
+            return $this->response(['user_id' => $user['user_id']], 'json');
         } else {
             return $this->response(['user_id' => 0], 'json');
         }

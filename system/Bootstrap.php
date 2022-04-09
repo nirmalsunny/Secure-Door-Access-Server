@@ -24,13 +24,9 @@ class App
         if ($ControllerAndMethod) {
             $this->controller = $ControllerAndMethod['Controller'];
             $this->method = $ControllerAndMethod['Method'];
-           /*  if (false !== strpos($_SERVER['HTTP_USER_AGENT'], 'ESP8266HTTPClient')) (new DumpHTTPRequestToFile)->execute('./arduino.txt');
-            else (new DumpHTTPRequestToFile)->execute('./dumprequest.txt'); */
         } else {
             $this->controller = "Home";
             $this->method = "error";
-            /* (new DumpHTTPRequestToFile)->execute('./errorrequest.txt'); */
-            //header('HTTP/1.1 404 Not Found');
             echo "controller or method not found";
         }
     }

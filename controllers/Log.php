@@ -12,13 +12,19 @@ class Log extends Controller
                 $this->db->pageLimit = 15;
             }
             $page = (int) $_GET['page'];
-            $logs = $this->db->arraybuilder()->paginate("logs", $page);
+            if (isset($_GET['since']) && !empty($_GET['since'])) {
+                $this->db->where('logged_at', $_GET['since'], '>=');
+            }
+            $logs = $this->db->arraybuilder()->orderBy("logged_at", "Desc")->paginate("logs", $page);
             $response['page'] = $_GET['page'];
             $response['page_limit'] = $this->db->pageLimit;
             $response['total_pages'] = $this->db->totalPages;
             $response['payload'] = $logs;
         } else {
-            $response['payload'] = $this->db->get("logs");
+            if (isset($_GET['since']) && !empty($_GET['since'])) {
+                $this->db->where('logged_at', $_GET['since'], '>=');
+            }
+            $response['payload'] = $this->db->orderBy("logged_at", "Desc")->get("logs");
         }
         $this->response($response, 'json');
     }

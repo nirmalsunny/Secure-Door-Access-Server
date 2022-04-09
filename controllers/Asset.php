@@ -5,7 +5,6 @@ class Asset extends Controller
     public function init()
     {
         $response = $this->getPost();
-        //$response = $_GET;
         if (!isset($response['asset_id']) || empty($response['asset_id']))
             return false;
 
@@ -27,7 +26,6 @@ class Asset extends Controller
     public function access()
     {
         $response = $this->getPost();
-        //$response = $_GET;
 
         if (!isset(getallheaders()['x-asset-token']) || !isset($response['asset_id']) || empty($response['asset_id'])) {
             return $this->response([
@@ -51,10 +49,6 @@ class Asset extends Controller
                 'checked_at' => time()
             ], 'json');
 
-        $this->db->join("assets a", "d.door_id=a.door_id", "INNER");
-        $this->db->where("a.asset_id", $this->db->escape($response['asset_id']));
-        $asset = $this->db->getOne("doors d", "*, d.is_active AS is_door_active");
-
         $this->db->join("cards c", "u.user_id=c.assigned_to", "INNER");
         $this->db->where("c.uid", $this->db->escape($response['uid']));
         $card = $this->db->getOne("users u", "*, u.is_active AS is_user_active");
@@ -65,6 +59,10 @@ class Asset extends Controller
                 'error' => 'card_not_found',
                 'checked_at' => time()
             ], 'json');
+
+        $this->db->join("assets a", "d.door_id=a.door_id", "INNER");
+        $this->db->where("a.asset_id", $this->db->escape($response['asset_id']));
+        $asset = $this->db->getOne("doors d", "*, d.is_active AS is_door_active");
 
         $data = [
             'user_id' => $card['assigned_to'],
@@ -110,9 +108,9 @@ class Asset extends Controller
 
         if ((int) $accesses['count(1)'] > 2) {
             $this->log(sprintf(
-                'The user (%d) has tried to access door (%d) with asset (%d) for %d times in last 5 minutes',
-                $card['assigned_to'],
-                $asset['door_id'],
+                '%s has tried to access door %s with asset (Asset ID: %d) for %d times in last 5 minutes',
+                $card['first_name'] . ' ' . $card['last_name'],
+                explode(':', $asset['door_identifier'])[1],
                 $asset['asset_id'],
                 (int) $accesses['count(1)']
             ), 3);

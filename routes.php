@@ -3,7 +3,6 @@
 return [
     "home" => "index@Home",
     "error" => "error@Home",
-    "test" => "test_me@Home",
 
     "login" => "login@Home",
     "register" => "register@Home",
@@ -32,8 +31,6 @@ return [
     "api/levels/all" => "all@Level",
     "api/levels/add" => "add@Level",
     "api/levels/delete" => "delete@Level",
-
-    "api/dashboard" => "dashboard@Home",
 
     "api/logs/all" => "all@Log",
     "api/logs/investigate" => "investigate@Log",

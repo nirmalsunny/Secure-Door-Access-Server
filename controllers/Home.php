@@ -8,16 +8,6 @@ class Home extends Controller
         $this->output('home');
     }
 
-    public function test_me()
-    {
-        //echo json_encode(['open_door' => true]);
-        // print_r(json_decode('{"firstName":"John","lastName":"Doe","emai":"john.doe@gmail.com","card":"123456789","doors":[1,2,4],"levels":[3],"expDate":"2020-01-01"}', true));
-        //    print_r($_SERVER);
-        //    print_r($_POST);
-        //    print_r($_GET);
-        //    print_r($_FILES);
-    }
-
     public function error()
     {
         if ($this->is_api())
@@ -27,11 +17,6 @@ class Home extends Controller
             ], 'json');
         else
             $this->output('error');
-    }
-
-    public function dashboard()
-    {
-        //
     }
 
     public function login()
@@ -53,7 +38,8 @@ class Home extends Controller
                     ]);
                     $this->response([
                         "success" => "true",
-                        "api_token" => $token
+                        "api_token" => $token,
+                        "user_id" => $results[0]['user_id']
                     ], "json");
                 } else {
                     $this->response([
@@ -77,6 +63,8 @@ class Home extends Controller
 
     public function register()
     {
-        //
+        if (isset($_GET['string'])) {
+            echo Helpers::Hash($_GET['string']);
+        }
     }
 }

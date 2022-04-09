@@ -24,7 +24,8 @@ class Level extends Controller
                 $this->response(['success' => 'true'], 'json');
             else
                 $this->response(['success' => 'false'], 'json');
-        }
+        } else
+            $this->response(['success' => 'false'], 'json');
     }
 
     public function all()
