@@ -1,520 +1,276 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Apr 02, 2022 at 12:55 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `secure_door_access`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `access_list`
---
 
 CREATE TABLE `access_list` (
-  `access_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `door_id` int(11) NOT NULL,
-  `card_id` int(11) NOT NULL,
-  `asset_id` int(11) NOT NULL,
-  `is_approved` int(1) NOT NULL,
-  `accessed_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `access_list`
---
+  `access_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `door_id` int DEFAULT NULL,
+  `card_id` int DEFAULT NULL,
+  `asset_id` int DEFAULT NULL,
+  `is_approved` int DEFAULT NULL,
+  `accessed_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `access_list` (`access_id`, `user_id`, `door_id`, `card_id`, `asset_id`, `is_approved`, `accessed_at`) VALUES
-(1, 1, 1, 1, 1, 0, '2022-03-31 22:09:50'),
-(2, 1, 1, 1, 1, 0, '2022-03-31 22:10:47'),
-(3, 1, 1, 1, 1, 0, '2022-03-31 22:11:33'),
-(4, 1, 1, 1, 1, 0, '2022-03-31 22:14:36'),
-(5, 1, 1, 1, 1, 0, '2022-03-31 22:14:37'),
-(6, 1, 1, 1, 1, 0, '2022-03-31 22:14:47'),
-(7, 1, 1, 1, 1, 0, '2022-03-31 22:21:08'),
-(8, 1, 1, 1, 1, 0, '2022-03-31 22:21:53'),
-(9, 1, 1, 1, 1, 0, '2022-03-31 22:21:54'),
-(10, 1, 1, 1, 1, 1, '2022-03-31 23:02:59'),
-(11, 1, 1, 1, 1, 1, '2022-03-31 23:03:09'),
-(12, 1, 1, 1, 1, 1, '2022-03-31 23:03:10'),
-(13, 1, 1, 1, 1, 1, '2022-03-31 23:03:11'),
-(14, 1, 1, 1, 1, 0, '2022-03-31 23:03:13'),
-(31, 1, 1, 1, 1, 1, '2022-03-31 23:11:31'),
-(32, 1, 1, 1, 1, 1, '2022-03-31 23:11:32'),
-(33, 1, 1, 1, 1, 1, '2022-03-31 23:11:33'),
-(34, 1, 1, 1, 1, 0, '2022-03-31 23:11:34');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `api_keys`
---
+(1, 2, 1, 1, 1, 0, '2022-04-08 03:08:59'),
+(2, 2, 1, 1, 1, 0, '2022-04-08 03:09:02'),
+(3, 2, 1, 1, 1, 0, '2022-04-08 03:09:04'),
+(4, 2, 1, 1, 1, 0, '2022-04-08 03:10:22'),
+(5, 2, 1, 1, 1, 0, '2022-04-08 03:10:24'),
+(6, 6, 1, 3, 1, 1, '2022-04-08 03:10:32'),
+(7, 6, 1, 3, 1, 0, '2022-04-08 03:10:45'),
+(8, 6, 1, 3, 1, 1, '2022-04-08 03:10:55'),
+(9, 6, 1, 3, 1, 0, '2022-04-08 03:11:18'),
+(10, 6, 1, 3, 1, 0, '2022-04-08 03:11:21'),
+(11, 6, 1, 3, 1, 0, '2022-04-08 03:11:34'),
+(12, 6, 1, 3, 1, 1, '2022-04-08 03:28:22');
 
 CREATE TABLE `api_keys` (
-  `api_key_id` int(11) NOT NULL,
+  `api_key_id` int NOT NULL,
   `api_key` varchar(1000) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `is_active` int(1) NOT NULL,
+  `user_id` int NOT NULL,
+  `is_active` int NOT NULL,
   `expires_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `api_keys`
---
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `api_keys` (`api_key_id`, `api_key`, `user_id`, `is_active`, `expires_at`) VALUES
-(2, 'cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df', 1, 0, '2022-03-21 19:24:57'),
-(3, '9f298c84e4b56288fbf4182db63bc58cc49e4ce9fa2f8fd01e4a4b23e58aa16f330f867ead485fbbcb1baf7fb1243e857b30c88897c2705cd13c2d4b554e65c6', 1, 0, '2022-03-21 22:19:18'),
-(4, '999294a16ec2805526b63aa5b9e43ae404a674170304bcd3deea8830b3278e6590cd99576fa2a5f904144775183b88718061d1a9266a0702d96ef046d528cb4b', 1, 0, '2022-03-21 22:19:21'),
-(5, '788d592f47b7a4d1d0337ba929de659e9caa52e2cff5f1842c38d186814ae40e983a22da3a19fde327662e4672569c8accb98aeb3a09298e9dd27dbf6d66d6a7', 1, 1, '2022-03-21 22:19:59');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `assets`
---
+(1, '441684d87a9ec4dce49b59935a283ab858b78333d9e116f2d65a33a94396ab5a9442ed208b782b68a8e986af8b31e2156fe9eec5c95075af51d53fce0439b37c', 1, 0, '2022-04-08 23:51:56'),
+(2, '3dda8a9386ba7506cbc01d37ef26ad2f5b86f98b7610cd7fbea1bbc00ab7850d80755916d458205ada937ad32befa9246dec7bdf44cb9e762ee2822209c028c5', 1, 0, '2022-04-09 01:42:00'),
+(3, 'a2d28a979426f2ee4b1467f8d14e4dd1e8ebc6aaa3630bca7f85b99a78a6fb324e484f0fb23ad8d67055e500bb8f6793e36c5b5d8e28b12a2de53760f7317204', 1, 1, '2022-04-09 02:50:10');
 
 CREATE TABLE `assets` (
-  `asset_id` int(11) NOT NULL,
+  `asset_id` int NOT NULL,
   `asset_tag` varchar(100) NOT NULL,
   `asset_info` varchar(500) NOT NULL,
-  `is_active` int(1) NOT NULL,
+  `is_active` int NOT NULL,
   `asset_token` varchar(1000) NOT NULL,
   `token_created_at` datetime DEFAULT NULL,
-  `door_id` int(11) NOT NULL,
-  `modified_by` int(11) NOT NULL,
-  `modified_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `assets`
---
+  `door_id` int NOT NULL,
+  `modified_by` int NOT NULL,
+  `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `assets` (`asset_id`, `asset_tag`, `asset_info`, `is_active`, `asset_token`, `token_created_at`, `door_id`, `modified_by`, `modified_at`) VALUES
-(1, 'ESP8266-A1', 'The scanner hardware for Door A1', 1, '0610ef01c30cb471ffd7f8df1fa0b728c1cb86274dc2076718a7fc3e1db9a0b64c69482cda9ef7bbea7cf175b0c28398eb54ba61fb26ae97d822f0a7989e39bd', '2022-03-31 23:48:03', 1, 3, '2022-03-20 11:13:42'),
+(1, 'ESP8266-A1', 'The scanner hardware for Door A1', 1, 'b571871fc871b2c78d5e69338d40d289a2cade50cab478526cf84422d2b91d60eb42a680f99d1ba6af0ab456f8c1ba2e9702937af1ed0674e133077d8d3b9b51', '2022-04-04 22:41:55', 1, 3, '2022-03-20 11:13:42'),
 (2, 'ESP8266-A2', 'The scanner hardware for Door A2', 1, 'bzv zdjbvjz vzdzdjn jshgioadsnvladhgad vaghak', NULL, 2, 3, '2022-03-20 11:13:42');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cards`
---
-
 CREATE TABLE `cards` (
-  `card_id` int(11) NOT NULL,
+  `card_id` int NOT NULL,
   `uid` varchar(50) NOT NULL,
-  `assigned_to` int(11) DEFAULT NULL,
-  `is_active` int(1) NOT NULL DEFAULT 1,
+  `assigned_to` int DEFAULT NULL,
+  `is_active` int NOT NULL DEFAULT '1',
   `expires_at` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  `modified_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `cards`
---
+  `modified_by` int DEFAULT NULL,
+  `modified_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `cards` (`card_id`, `uid`, `assigned_to`, `is_active`, `expires_at`, `modified_by`, `modified_at`) VALUES
-(1, 'c2adcf39', 1, 1, '2023-03-14 11:06:42', 3, '2022-03-20 11:07:44'),
-(2, 'j7hyjf48', 3, 1, NULL, 3, '2022-03-31 14:03:56');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `card_to_door`
---
+(1, 'd3852107', 2, 1, '2022-04-16 00:57:00', 3, '2022-03-20 11:07:44'),
+(2, '76ae4b03', 4, 1, '2022-05-13 01:56:00', 3, '2022-03-31 14:03:56'),
+(3, '4f8e4803', 6, 1, NULL, 1, '2022-04-07 15:07:27'),
+(4, '563e7c36', NULL, 0, NULL, 1, '2022-04-07 23:54:41'),
+(5, 'c2adcf39', 3, 1, NULL, NULL, '2022-04-07 23:58:16');
 
 CREATE TABLE `card_to_door` (
-  `card_to_door_id` int(11) NOT NULL,
-  `card_id` int(11) NOT NULL,
-  `door_id` int(11) NOT NULL,
-  `is_allowed` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `card_to_door`
---
+  `card_to_door_id` int NOT NULL,
+  `card_id` int NOT NULL,
+  `door_id` int NOT NULL,
+  `is_allowed` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `card_to_door` (`card_to_door_id`, `card_id`, `door_id`, `is_allowed`) VALUES
-(1, 1, 1, 1),
-(2, 1, 2, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `card_to_level`
---
+(3, 4, 1, 1),
+(4, 3, 1, 1),
+(5, 5, 1, 1),
+(6, 5, 4, 1),
+(7, 5, 11, 1);
 
 CREATE TABLE `card_to_level` (
-  `card_to_level_id` int(11) NOT NULL,
-  `card_id` int(11) NOT NULL,
-  `level_id` int(11) NOT NULL,
-  `is_allowed` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `card_to_level`
---
+  `card_to_level_id` int NOT NULL,
+  `card_id` int NOT NULL,
+  `level_id` int NOT NULL,
+  `is_allowed` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `card_to_level` (`card_to_level_id`, `card_id`, `level_id`, `is_allowed`) VALUES
-(1, 1, 1, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `doors`
---
+(2, 4, 2, 1),
+(3, 3, 2, 1),
+(4, 5, 1, 1);
 
 CREATE TABLE `doors` (
-  `door_id` int(11) NOT NULL,
+  `door_id` int NOT NULL,
   `door_identifier` varchar(100) NOT NULL,
-  `door_access_level_id` int(11) NOT NULL,
-  `is_active` int(1) NOT NULL DEFAULT 1,
-  `modified_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `doors`
---
+  `door_access_level_id` int NOT NULL,
+  `is_active` int NOT NULL DEFAULT '1',
+  `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `doors` (`door_id`, `door_identifier`, `door_access_level_id`, `is_active`, `modified_at`) VALUES
-(1, 'A1', 1, 1, '2022-03-20 11:08:53'),
-(2, 'A2', 1, 0, '2022-03-20 11:08:53');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `levels`
---
+(1, 'Room A1:A1', 1, 1, '2022-04-07 23:54:34'),
+(2, 'Room A2:A2', 1, 0, '2022-04-07 23:54:43'),
+(3, 'Room A3:A3', 1, 1, '2022-04-07 23:54:59'),
+(4, 'Room B1:B1', 2, 1, '2022-04-07 23:55:10'),
+(5, 'Room B2:B2', 2, 0, '2022-04-07 23:55:20'),
+(6, 'Room B3:B3', 2, 1, '2022-04-07 23:55:29'),
+(11, 'Room C1:C1', 4, 1, '2022-04-08 02:35:59');
 
 CREATE TABLE `levels` (
-  `level_id` int(11) NOT NULL,
+  `level_id` int NOT NULL,
   `level` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `levels`
---
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `levels` (`level_id`, `level`) VALUES
-(1, 'Level 1'),
-(2, 'Level 2');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `logs`
---
+(1, 'Level A'),
+(2, 'Level B'),
+(4, 'Level C');
 
 CREATE TABLE `logs` (
-  `log_id` int(11) NOT NULL,
+  `log_id` int NOT NULL,
   `log_category` varchar(200) NOT NULL,
   `message` varchar(5000) NOT NULL,
-  `severity` int(1) DEFAULT NULL,
-  `logged_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_notified` int(1) NOT NULL DEFAULT 0,
-  `has_investigated` int(11) NOT NULL DEFAULT 0,
-  `investigated_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `logs`
---
+  `severity` int DEFAULT NULL,
+  `logged_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_notified` int NOT NULL DEFAULT '0',
+  `has_investigated` int NOT NULL DEFAULT '0',
+  `investigated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `logs` (`log_id`, `log_category`, `message`, `severity`, `logged_at`, `is_notified`, `has_investigated`, `investigated_at`) VALUES
-(1, 'access', 'The user (1) has tried to access door (1) with asset (1) for 9 times in last 5 minutes', 3, '2022-03-31 21:40:28', 0, 0, '0000-00-00 00:00:00'),
-(2, 'access', 'The user (1) has tried to access door (1) with asset (1) for 9 times in last 5 minutes', 3, '2022-03-31 21:43:41', 0, 0, '0000-00-00 00:00:00'),
-(3, 'access', 'The user (1) has tried to access door (1) with asset (1) for 9 times in last 5 minutes', 3, '2022-03-31 21:48:54', 0, 0, '0000-00-00 00:00:00'),
-(4, 'access', 'The user (1) has tried to access door (1) with asset (1) for 4 times in last 5 minutes', 3, '2022-03-31 22:03:13', 0, 0, '0000-00-00 00:00:00'),
-(5, 'access', 'The user (1) has tried to access door (1) with asset (1) for 1 times in last 5 minutes', 3, '2022-03-31 22:08:44', 0, 0, '0000-00-00 00:00:00'),
-(6, 'access', 'The user (1) has tried to access door (1) with asset (1) for 1 times in last 5 minutes', 3, '2022-03-31 22:09:00', 0, 0, '0000-00-00 00:00:00'),
-(7, 'access', 'The user (1) has tried to access door (1) with asset (1) for 9 times in last 5 minutes', 3, '2022-03-31 22:09:45', 0, 0, '0000-00-00 00:00:00'),
-(8, 'access', 'The user (1) has tried to access door (1) with asset (1) for 4 times in last 5 minutes', 3, '2022-03-31 22:10:32', 0, 0, '0000-00-00 00:00:00'),
-(9, 'access', 'The user (1) has tried to access door (1) with asset (1) for 3 times in last 5 minutes', 3, '2022-03-31 22:11:34', 0, 0, '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `requests`
---
+(1, 'access', 'Test User has tried to access door A1 with asset (Asset ID: 1) for 3 times in last 5 minutes', 3, '2022-04-08 03:11:18', 0, 0, '2022-04-08 03:11:18'),
+(2, 'access', 'Test User has tried to access door A1 with asset (Asset ID: 1) for 4 times in last 5 minutes', 3, '2022-04-08 03:11:21', 0, 0, '2022-04-08 03:11:21'),
+(3, 'access', 'Test User has tried to access door A1 with asset (Asset ID: 1) for 5 times in last 5 minutes', 3, '2022-04-08 03:11:33', 0, 1, '2022-04-08 03:12:06');
 
 CREATE TABLE `requests` (
-  `request_id` int(11) NOT NULL,
+  `request_id` int NOT NULL,
   `request_header` varchar(1000) NOT NULL,
   `request_body` varchar(5000) NOT NULL,
-  `request_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `request_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `response` mediumtext NOT NULL,
   `response_time` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `requests`
---
-
-INSERT INTO `requests` (`request_id`, `request_header`, `request_body`, `request_time`, `response`, `response_time`) VALUES
-(1, '{\"Host\":\"localhost\",\"Connection\":\"keep-alive\",\"Cache-Control\":\"max-age=0\",\"sec-ch-ua\":\"\\\" Not A;Brand\\\";v=\\\"99\\\", \\\"Chromium\\\";v=\\\"99\\\", \\\"Microsoft Edge\\\";v=\\\"99\\\"\",\"sec-ch-ua-mobile\":\"?0\",\"sec-ch-ua-platform\":\"\\\"Windows\\\"\",\"Upgrade-Insecure-Requests\":\"1\",\"User-Agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/99.0.4844.74 Safari\\/537.36 Edg\\/99.0.1150.46\",\"Accept\":\"text\\/html,application\\/xhtml+xml,application\\/xml;q=0.9,image\\/webp,image\\/apng,*\\/*;q=0.8,application\\/signed-exchange;v=b3;q=0.9\",\"Sec-Fetch-Site\":\"none\",\"Sec-Fetch-Mode\":\"navigate\",\"Sec-Fetch-User\":\"?1\",\"Sec-Fetch-Dest\":\"document\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Accept-Language\":\"en-GB,en;q=0.9,en-US;q=0.8\",\"Cookie\":\"remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IkNPaEpzQ0I1dDdzeERBdUpsbzVzYmc9PSIsInZhbHVlIjoiTzl6d2hURkp0YTFNQjlYcHZ4ejZ1WTRYOXNaaklnTkp4bzVhTkpWMEtMT3JPZGoyRkt4aDJ4SmlFRTZ0OE1JVytNamZ6YjA2bElwN05ZOVVYWDZyUVRkWTMrWm9saVhpR0xhc2ZKTnFrS', '{\"route\":\"api\\/doors\\/all\",\"page\":\"2\",\"page_limit\":\"1\"}', '2022-03-20 12:26:32', '', '0000-00-00 00:00:00'),
-(2, '{\"Host\":\"localhost\",\"Connection\":\"keep-alive\",\"Cache-Control\":\"max-age=0\",\"sec-ch-ua\":\"\\\" Not A;Brand\\\";v=\\\"99\\\", \\\"Chromium\\\";v=\\\"99\\\", \\\"Microsoft Edge\\\";v=\\\"99\\\"\",\"sec-ch-ua-mobile\":\"?0\",\"sec-ch-ua-platform\":\"\\\"Windows\\\"\",\"Upgrade-Insecure-Requests\":\"1\",\"User-Agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/99.0.4844.74 Safari\\/537.36 Edg\\/99.0.1150.46\",\"Accept\":\"text\\/html,application\\/xhtml+xml,application\\/xml;q=0.9,image\\/webp,image\\/apng,*\\/*;q=0.8,application\\/signed-exchange;v=b3;q=0.9\",\"Sec-Fetch-Site\":\"none\",\"Sec-Fetch-Mode\":\"navigate\",\"Sec-Fetch-User\":\"?1\",\"Sec-Fetch-Dest\":\"document\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Accept-Language\":\"en-GB,en;q=0.9,en-US;q=0.8\",\"Cookie\":\"remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IkNPaEpzQ0I1dDdzeERBdUpsbzVzYmc9PSIsInZhbHVlIjoiTzl6d2hURkp0YTFNQjlYcHZ4ejZ1WTRYOXNaaklnTkp4bzVhTkpWMEtMT3JPZGoyRkt4aDJ4SmlFRTZ0OE1JVytNamZ6YjA2bElwN05ZOVVYWDZyUVRkWTMrWm9saVhpR0xhc2ZKTnFrS', '{\"route\":\"api\\/doors\\/all\",\"page\":\"3\",\"page_limit\":\"1\"}', '2022-03-20 12:36:23', '{\"status_code\":401,\"body\":{\"error\":\"unauthorized\"}}', '2022-03-20 12:36:23'),
-(3, '{\"Host\":\"localhost\",\"Connection\":\"keep-alive\",\"Cache-Control\":\"max-age=0\",\"sec-ch-ua\":\"\\\" Not A;Brand\\\";v=\\\"99\\\", \\\"Chromium\\\";v=\\\"99\\\", \\\"Microsoft Edge\\\";v=\\\"99\\\"\",\"sec-ch-ua-mobile\":\"?0\",\"sec-ch-ua-platform\":\"\\\"Windows\\\"\",\"Upgrade-Insecure-Requests\":\"1\",\"User-Agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/99.0.4844.74 Safari\\/537.36 Edg\\/99.0.1150.46\",\"Accept\":\"text\\/html,application\\/xhtml+xml,application\\/xml;q=0.9,image\\/webp,image\\/apng,*\\/*;q=0.8,application\\/signed-exchange;v=b3;q=0.9\",\"Sec-Fetch-Site\":\"none\",\"Sec-Fetch-Mode\":\"navigate\",\"Sec-Fetch-User\":\"?1\",\"Sec-Fetch-Dest\":\"document\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Accept-Language\":\"en-GB,en;q=0.9,en-US;q=0.8\",\"Cookie\":\"remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IkNPaEpzQ0I1dDdzeERBdUpsbzVzYmc9PSIsInZhbHVlIjoiTzl6d2hURkp0YTFNQjlYcHZ4ejZ1WTRYOXNaaklnTkp4bzVhTkpWMEtMT3JPZGoyRkt4aDJ4SmlFRTZ0OE1JVytNamZ6YjA2bElwN05ZOVVYWDZyUVRkWTMrWm9saVhpR0xhc2ZKTnFrS', '{\"route\":\"api\\/doors\\/all\",\"page\":\"1\",\"page_limit\":\"1\"}', '2022-03-20 19:45:31', '{\"status_code\":401,\"body\":{\"error\":\"unauthorized\"}}', '2022-03-20 19:45:31'),
-(4, '{\"x-authorization-token\":\"cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df\",\"User-Agent\":\"PostmanRuntime\\/7.29.0\",\"Accept\":\"*\\/*\",\"Postman-Token\":\"229769ec-decc-4514-9eed-65523c6832df\",\"Host\":\"localhost\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Connection\":\"keep-alive\"}', '{\"route\":\"api\\/doors\\/all\",\"page\":\"1\",\"page_limit\":\"1\"}', '2022-03-20 19:56:37', '{\"status_code\":401,\"body\":{\"error\":\"unauthorized\"}}', '2022-03-20 19:56:37'),
-(5, '{\"x-authorization-token\":\"cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df\",\"User-Agent\":\"PostmanRuntime\\/7.29.0\",\"Accept\":\"*\\/*\",\"Postman-Token\":\"d9223489-aa3f-48fc-914c-88481a2bcf49\",\"Host\":\"localhost\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Connection\":\"keep-alive\"}', '{\"route\":\"api\\/doors\\/all\",\"page\":\"1\",\"page_limit\":\"1\"}', '2022-03-20 20:25:39', '', '0000-00-00 00:00:00'),
-(6, '{\"x-authorization-token\":\"cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df\",\"User-Agent\":\"PostmanRuntime\\/7.29.0\",\"Accept\":\"*\\/*\",\"Postman-Token\":\"e90904c0-3c53-4612-b74b-ae8207970a55\",\"Host\":\"localhost\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Connection\":\"keep-alive\"}', '{\"route\":\"api\\/doors\\/all\",\"page\":\"1\",\"page_limit\":\"1\"}', '2022-03-20 21:17:50', '', '0000-00-00 00:00:00'),
-(7, '{\"x-authorization-token\":\"cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df\",\"User-Agent\":\"PostmanRuntime\\/7.29.0\",\"Accept\":\"*\\/*\",\"Postman-Token\":\"eca56a50-b29a-476b-b7b0-278e28272d4a\",\"Host\":\"localhost\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Connection\":\"keep-alive\"}', '{\"route\":\"api\\/doors\\/all\"}', '2022-03-20 22:08:21', '', '0000-00-00 00:00:00'),
-(8, '{\"x-authorization-token\":\"cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df\",\"User-Agent\":\"PostmanRuntime\\/7.29.0\",\"Accept\":\"*\\/*\",\"Postman-Token\":\"df48f4e6-bd6f-4412-a86f-5987e0fd0652\",\"Host\":\"localhost\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Connection\":\"keep-alive\"}', '{\"route\":\"api\\/doors\\/all\"}', '2022-03-20 22:08:26', '', '0000-00-00 00:00:00'),
-(9, '{\"x-authorization-token\":\"cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df\",\"User-Agent\":\"PostmanRuntime\\/7.29.0\",\"Accept\":\"*\\/*\",\"Postman-Token\":\"a53fc9dd-fa3e-4126-a290-f478ce03e477\",\"Host\":\"localhost\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Connection\":\"keep-alive\"}', '{\"route\":\"api\\/doors\\/all\\/aaa\"}', '2022-03-20 22:08:35', '', '0000-00-00 00:00:00'),
-(10, '{\"x-authorization-token\":\"cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df\",\"User-Agent\":\"PostmanRuntime\\/7.29.0\",\"Accept\":\"*\\/*\",\"Postman-Token\":\"8a187601-7f51-4a71-ac7b-559f8e905457\",\"Host\":\"localhost\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Connection\":\"keep-alive\"}', '{\"route\":\"api\\/doors\\/all\\/aaa\"}', '2022-03-20 22:10:03', '', '0000-00-00 00:00:00'),
-(11, '{\"x-authorization-token\":\"cb239b95b74f93662349b2920cfb80e3fd5dc64a88740a66c3d357f39b0fdf73293bd7d2c0cd560fd77acb267bf417011da73b71a4e1908c9697b9f35d9a78df\",\"User-Agent\":\"PostmanRuntime\\/7.29.0\",\"Accept\":\"*\\/*\",\"Postman-Token\":\"38b5893a-8e90-4548-a7d3-123c9da85882\",\"Host\":\"localhost\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Connection\":\"keep-alive\"}', '{\"route\":\"api\\/doors\\/all\\/aaa\"}', '2022-03-20 22:10:50', '', '0000-00-00 00:00:00'),
-(12, '{\"Host\":\"localhost\",\"Connection\":\"keep-alive\",\"Cache-Control\":\"max-age=0\",\"sec-ch-ua\":\"\\\" Not A;Brand\\\";v=\\\"99\\\", \\\"Chromium\\\";v=\\\"99\\\", \\\"Microsoft Edge\\\";v=\\\"99\\\"\",\"sec-ch-ua-mobile\":\"?0\",\"sec-ch-ua-platform\":\"\\\"Windows\\\"\",\"Upgrade-Insecure-Requests\":\"1\",\"User-Agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/99.0.4844.74 Safari\\/537.36 Edg\\/99.0.1150.46\",\"Accept\":\"text\\/html,application\\/xhtml+xml,application\\/xml;q=0.9,image\\/webp,image\\/apng,*\\/*;q=0.8,application\\/signed-exchange;v=b3;q=0.9\",\"Sec-Fetch-Site\":\"none\",\"Sec-Fetch-Mode\":\"navigate\",\"Sec-Fetch-User\":\"?1\",\"Sec-Fetch-Dest\":\"document\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Accept-Language\":\"en-GB,en;q=0.9,en-US;q=0.8\",\"Cookie\":\"remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IkNPaEpzQ0I1dDdzeERBdUpsbzVzYmc9PSIsInZhbHVlIjoiTzl6d2hURkp0YTFNQjlYcHZ4ejZ1WTRYOXNaaklnTkp4bzVhTkpWMEtMT3JPZGoyRkt4aDJ4SmlFRTZ0OE1JVytNamZ6YjA2bElwN05ZOVVYWDZyUVRkWTMrWm9saVhpR0xhc2ZKTnFrS', '{\"route\":\"api\\/doors\\/all\"}', '2022-03-20 23:50:06', '{\"status_code\":401,\"body\":{\"error\":\"unauthorized\"}}', '2022-03-20 23:50:06'),
-(13, '{\"Host\":\"localhost\",\"Connection\":\"keep-alive\",\"Cache-Control\":\"max-age=0\",\"sec-ch-ua\":\"\\\" Not A;Brand\\\";v=\\\"99\\\", \\\"Chromium\\\";v=\\\"99\\\", \\\"Microsoft Edge\\\";v=\\\"99\\\"\",\"sec-ch-ua-mobile\":\"?0\",\"sec-ch-ua-platform\":\"\\\"Windows\\\"\",\"Upgrade-Insecure-Requests\":\"1\",\"User-Agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/99.0.4844.74 Safari\\/537.36 Edg\\/99.0.1150.46\",\"Accept\":\"text\\/html,application\\/xhtml+xml,application\\/xml;q=0.9,image\\/webp,image\\/apng,*\\/*;q=0.8,application\\/signed-exchange;v=b3;q=0.9\",\"Sec-Fetch-Site\":\"none\",\"Sec-Fetch-Mode\":\"navigate\",\"Sec-Fetch-User\":\"?1\",\"Sec-Fetch-Dest\":\"document\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Accept-Language\":\"en-GB,en;q=0.9,en-US;q=0.8\",\"Cookie\":\"remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IkNPaEpzQ0I1dDdzeERBdUpsbzVzYmc9PSIsInZhbHVlIjoiTzl6d2hURkp0YTFNQjlYcHZ4ejZ1WTRYOXNaaklnTkp4bzVhTkpWMEtMT3JPZGoyRkt4aDJ4SmlFRTZ0OE1JVytNamZ6YjA2bElwN05ZOVVYWDZyUVRkWTMrWm9saVhpR0xhc2ZKTnFrS', '{\"route\":\"api\\/doors\\/all\"}', '2022-03-20 23:50:07', '{\"status_code\":401,\"body\":{\"error\":\"unauthorized\"}}', '2022-03-20 23:50:07'),
-(14, '{\"Host\":\"localhost\",\"Connection\":\"keep-alive\",\"sec-ch-ua\":\"\\\" Not A;Brand\\\";v=\\\"99\\\", \\\"Chromium\\\";v=\\\"99\\\", \\\"Microsoft Edge\\\";v=\\\"99\\\"\",\"sec-ch-ua-mobile\":\"?0\",\"sec-ch-ua-platform\":\"\\\"Windows\\\"\",\"Upgrade-Insecure-Requests\":\"1\",\"User-Agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/99.0.4844.74 Safari\\/537.36 Edg\\/99.0.1150.55\",\"Accept\":\"text\\/html,application\\/xhtml+xml,application\\/xml;q=0.9,image\\/webp,image\\/apng,*\\/*;q=0.8,application\\/signed-exchange;v=b3;q=0.9\",\"Sec-Fetch-Site\":\"none\",\"Sec-Fetch-Mode\":\"navigate\",\"Sec-Fetch-User\":\"?1\",\"Sec-Fetch-Dest\":\"document\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Accept-Language\":\"en-GB,en;q=0.9,en-US;q=0.8\"}', '{\"route\":\"api\\/dashboard\"}', '2022-04-01 13:02:56', '{\"status_code\":401,\"body\":{\"error\":\"unauthorized\"}}', '2022-04-01 13:02:56'),
-(15, '{\"Host\":\"localhost\",\"Connection\":\"keep-alive\",\"sec-ch-ua\":\"\\\" Not A;Brand\\\";v=\\\"99\\\", \\\"Chromium\\\";v=\\\"99\\\", \\\"Microsoft Edge\\\";v=\\\"99\\\"\",\"sec-ch-ua-mobile\":\"?0\",\"sec-ch-ua-platform\":\"\\\"Windows\\\"\",\"Upgrade-Insecure-Requests\":\"1\",\"User-Agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/99.0.4844.74 Safari\\/537.36 Edg\\/99.0.1150.55\",\"Accept\":\"text\\/html,application\\/xhtml+xml,application\\/xml;q=0.9,image\\/webp,image\\/apng,*\\/*;q=0.8,application\\/signed-exchange;v=b3;q=0.9\",\"Sec-Fetch-Site\":\"none\",\"Sec-Fetch-Mode\":\"navigate\",\"Sec-Fetch-User\":\"?1\",\"Sec-Fetch-Dest\":\"document\",\"Accept-Encoding\":\"gzip, deflate, br\",\"Accept-Language\":\"en-GB,en;q=0.9,en-US;q=0.8\"}', '{\"route\":\"api\\/users\\/get\",\"user_id\":\"1\"}', '2022-04-02 11:50:25', '{\"status_code\":401,\"body\":{\"error\":\"unauthorized\"}}', '2022-04-02 11:50:25');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email` varchar(75) NOT NULL,
   `user_name` varchar(100) DEFAULT NULL,
   `password` varchar(500) DEFAULT NULL,
-  `user_access_level_id` int(11) DEFAULT NULL,
-  `allow_global_level_access` int(1) NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `user_access_level_id` int DEFAULT NULL,
+  `allow_global_level_access` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `role` varchar(50) NOT NULL DEFAULT '2',
-  `is_active` int(1) NOT NULL DEFAULT 0,
+  `is_active` int NOT NULL DEFAULT '0',
   `employee_id` varchar(30) DEFAULT NULL,
   `comments` varchar(5000) DEFAULT NULL,
-  `modified_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `users`
---
+  `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `user_name`, `password`, `user_access_level_id`, `allow_global_level_access`, `created_at`, `role`, `is_active`, `employee_id`, `comments`, `modified_at`) VALUES
-(1, 'Test', 'Person', 'test@example.com', 'test', '$2y$09$S3h4GhFtyYoN3gV66MhtwuxGNluUcGlsrGSNp97VTH8f35kGkVMuu', 1, 0, '2022-03-19 12:01:42', '2', 1, '10052', 'Nothing much about this user.', '2022-03-19 12:01:42'),
-(2, 'Lorem', 'Ipsum', 'lorem@ipsum.co.uk', 'lorem', 'lorem', 1, 0, '2022-03-19 12:01:42', '2', 0, '10023', 'User on holiday.', '2022-03-19 12:01:42'),
-(3, 'Admin', 'Test', 'admin@test.com', 'admin-test', 'admin-test', 1, 1, '2022-03-19 12:03:19', '1', 1, '10001', 'Administrator with global access', '2022-03-19 12:03:19');
+(1, 'Eugene', 'Rupi', 'eugene@rupi.com', 'eugene', '$2y$10$KfG4EFsrvlJbOhcrSAYyweOriDr9PHC22cGZSQn2zPppnmO3mieie', 0, 1, '2022-04-07 23:50:21', '1', 1, NULL, NULL, '2022-04-07 23:50:21'),
+(2, 'Manos', 'Sarigiannis', 'manos.sar@gmail.com', NULL, NULL, NULL, 0, '2022-04-07 23:58:23', '2', 1, NULL, NULL, '2022-04-08 00:32:58'),
+(3, 'Nirmal', 'Sunny', 'sunny@gmail.com', NULL, NULL, NULL, 0, '2022-04-08 00:46:57', '2', 1, NULL, NULL, '2022-04-08 02:37:50'),
+(4, 'Eugen', 'Rupi', 'eugen.rupi@gmail.com', NULL, NULL, NULL, 0, '2022-04-08 00:47:29', '2', 1, NULL, NULL, '2022-04-08 00:56:52'),
+(6, 'Test', 'User', 'test@user.com', NULL, NULL, NULL, 0, '2022-04-08 02:37:00', '2', 1, NULL, NULL, '2022-04-08 02:37:00');
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `access_list`
---
 ALTER TABLE `access_list`
-  ADD PRIMARY KEY (`access_id`),
-  ADD KEY `asset_id` (`asset_id`),
-  ADD KEY `card_id` (`card_id`),
-  ADD KEY `door_id` (`door_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`access_id`);
 
---
--- Indexes for table `api_keys`
---
 ALTER TABLE `api_keys`
   ADD PRIMARY KEY (`api_key_id`),
   ADD KEY `user_id` (`user_id`);
 
---
--- Indexes for table `assets`
---
 ALTER TABLE `assets`
   ADD PRIMARY KEY (`asset_id`),
   ADD KEY `door_id` (`door_id`);
 
---
--- Indexes for table `cards`
---
 ALTER TABLE `cards`
   ADD PRIMARY KEY (`card_id`),
-  ADD KEY `assigned_to` (`assigned_to`),
   ADD KEY `modified_by` (`modified_by`);
 
---
--- Indexes for table `card_to_door`
---
 ALTER TABLE `card_to_door`
   ADD PRIMARY KEY (`card_to_door_id`),
   ADD KEY `card_id` (`card_id`),
   ADD KEY `door_id` (`door_id`);
 
---
--- Indexes for table `card_to_level`
---
 ALTER TABLE `card_to_level`
   ADD PRIMARY KEY (`card_to_level_id`),
   ADD KEY `card_id` (`card_id`),
   ADD KEY `level_id` (`level_id`);
 
---
--- Indexes for table `doors`
---
 ALTER TABLE `doors`
-  ADD PRIMARY KEY (`door_id`),
-  ADD KEY `door_access_level_id` (`door_access_level_id`);
+  ADD PRIMARY KEY (`door_id`);
 
---
--- Indexes for table `levels`
---
 ALTER TABLE `levels`
   ADD PRIMARY KEY (`level_id`);
 
---
--- Indexes for table `logs`
---
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`log_id`);
 
---
--- Indexes for table `requests`
---
 ALTER TABLE `requests`
   ADD PRIMARY KEY (`request_id`);
 
---
--- Indexes for table `users`
---
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `user_access_level_id` (`user_access_level_id`);
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT for table `access_list`
---
 ALTER TABLE `access_list`
-  MODIFY `access_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `access_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
---
--- AUTO_INCREMENT for table `api_keys`
---
 ALTER TABLE `api_keys`
-  MODIFY `api_key_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `api_key_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `assets`
---
 ALTER TABLE `assets`
-  MODIFY `asset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `asset_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `cards`
---
 ALTER TABLE `cards`
-  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `card_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
---
--- AUTO_INCREMENT for table `card_to_door`
---
 ALTER TABLE `card_to_door`
-  MODIFY `card_to_door_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `card_to_door_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
---
--- AUTO_INCREMENT for table `card_to_level`
---
 ALTER TABLE `card_to_level`
-  MODIFY `card_to_level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `card_to_level_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT for table `doors`
---
 ALTER TABLE `doors`
-  MODIFY `door_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `door_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
---
--- AUTO_INCREMENT for table `levels`
---
 ALTER TABLE `levels`
-  MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `level_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT for table `logs`
---
 ALTER TABLE `logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `log_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `requests`
---
 ALTER TABLE `requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `request_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `users`
---
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `access_list`
---
-ALTER TABLE `access_list`
-  ADD CONSTRAINT `access_list_ibfk_2` FOREIGN KEY (`asset_id`) REFERENCES `assets` (`asset_id`),
-  ADD CONSTRAINT `access_list_ibfk_3` FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`),
-  ADD CONSTRAINT `access_list_ibfk_4` FOREIGN KEY (`door_id`) REFERENCES `doors` (`door_id`),
-  ADD CONSTRAINT `access_list_ibfk_5` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `api_keys`
---
 ALTER TABLE `api_keys`
   ADD CONSTRAINT `api_keys_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
---
--- Constraints for table `assets`
---
 ALTER TABLE `assets`
   ADD CONSTRAINT `assets_ibfk_1` FOREIGN KEY (`door_id`) REFERENCES `doors` (`door_id`);
 
---
--- Constraints for table `card_to_door`
---
 ALTER TABLE `card_to_door`
   ADD CONSTRAINT `card_to_door_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`),
   ADD CONSTRAINT `card_to_door_ibfk_2` FOREIGN KEY (`door_id`) REFERENCES `doors` (`door_id`);
 
---
--- Constraints for table `card_to_level`
---
 ALTER TABLE `card_to_level`
   ADD CONSTRAINT `card_to_level_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`),
   ADD CONSTRAINT `card_to_level_ibfk_2` FOREIGN KEY (`level_id`) REFERENCES `levels` (`level_id`);
-
---
--- Constraints for table `doors`
---
-ALTER TABLE `doors`
-  ADD CONSTRAINT `doors_ibfk_1` FOREIGN KEY (`door_access_level_id`) REFERENCES `levels` (`level_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
